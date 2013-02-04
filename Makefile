@@ -1,26 +1,24 @@
 .PHONY: clean all
 
-all : test_recv_msg #print_events 
+all : test_recv_msg
 
 LDFLAGS += -lspread -ldl
 CFLAGS += -Wall -g3
 
-print_events : utils.o spread_events.o message.o spread_error.o print_events_main.o
-	$(CC) -o $@  $(CFLAGS) $^ $(LDFLAGS)
-
-test_recv_msg : utils.o spread_msg.o test_recv_msg.o print_msg.o spread_error.o
+test_recv_msg : utils.o spread_msg.o print_msg.o spread_error.o test_recv_msg.o 
 	$(CC) -o $@  $(CFLAGS) $^ $(LDFLAGS)
 
 # Here, we want to grab all the error codes mentioned in the spread man
 # pages, along with their descriptions, and generate, eventually, 
 # a c file to print out an error handling code that prints out
-# the specific error before aborting.
-# all the machinery defines explicit and static dependencies
-# to make it work
+# the specific error and an explanation when a spread error occurs.
+# all the machinery defines explicit and static dependencies to make it work
 
-# unfortunately, we must tell make about the specific dependencies
-# so the file gets built if anything changes in the chain.
-spread_error.o : $(addprefix spread_error.,c h txt xml gsl pl)
+generated = $(addprefix spread_error.,c txt xml)
+
+# force make to keep the files around so git doesn't
+# miss them and complain 
+.PRECIOUS : $(addprefix spread_error.,c txt xml)
 
 # extract error codes and descriptions from man pages
 %.txt :
@@ -34,7 +32,8 @@ spread_error.o : $(addprefix spread_error.,c h txt xml gsl pl)
 %.c : %.xml %.gsl 
 	gsl -q -script:$(*).gsl $< > $@
 
-
-
 clean:
 	$(RM) *~ *.o
+
+realclean: clean
+		$(RM) $(generated) 
