@@ -1,0 +1,36 @@
+.[gsl].ignorecase = 0
+/* DO NOT EDIT. This file is auto generated from ... */
+
+#include <stdlib.h>
+#include <sp.h>
+#include "utils.h"
+
+static struct {
+	 int code;
+	 char *desc;
+       } errors[] = {
+ { 0, "unknown error" },
+
+.for error
+{ $(code), "$(code) - $(desc)" },
+.endfor
+
+};
+
+char *spread_error_desc(int code) {
+     int i;
+     for (i = 0; i < $(count(0.error)) ; i++)
+     	 if (errors[i].code == code)
+	    return errors[i].desc;
+
+     return errors[0].desc;
+}
+
+void warn_spread_error(int code) {
+     warn("%s", spread_error_desc(code));
+}
+
+void spread_error(int code) {
+     warn_spread_error(code);
+     abort();
+}

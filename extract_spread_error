@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#extract the RETURN VALUES section out of every man page prefixed with SP_,
+#which, conveniently, covers all the spread functions!
+
+man -k SP_ |
+perl -ane '
+print <<EOS;
+echo "Function: $F[0]"
+man --nj --nh --pager=cat $F[0] | sed -n "/^RETURN VALUES/,/^BUGS/ p" 
+EOS
+' | sh

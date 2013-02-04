@@ -1,0 +1,293 @@
+Function: SP_connect
+RETURN VALUES
+       Returns ACCEPT_SESSION on success or one of the following errors ( < 0
+       ):
+
+       ILLEGAL_SPREAD
+               The spread_name given to connect to was illegal for some
+               reason. Usually because it was a unix socket on Windows95/NT,
+               an improper format for a host or an illegal port number
+
+       COULD_NOT_CONNECT
+               Lower level socket calls failed to allow a connection to the
+               specified spread daemon right now.
+
+       CONNECTION_CLOSED
+               During communication to establish the connection errors occured
+               and the setup could not be completed.
+
+       REJECT_VERSION
+               The daemon or library has a version mismatch.
+
+       REJECT_NO_NAME
+               This is a protocol error which should not occur if the
+               connection request is sent correctly to the daemon. It means
+               that the length of the user name was not sent (if no user name
+               is provided a length of 0 must be sent).
+
+       REJECT_ILLEGAL_NAME
+               Name provided violated some requirement (length or used an
+               illegal character)
+
+       REJECT_NOT_UNIQUE
+               Name provided is not unique on this daemon. Recommended
+               response is to try again with a different name.
+
+BUGS
+Function: SP_disconnect
+RETURN VALUES
+       Returns 0 on success or ILLEGAL_SESSION when the session mbox given is
+       not a valid connection.
+
+BUGS
+Function: SP_equal_group_ids
+RETURN VALUES
+       Returns true (not 0 ) if they are equal and false if they are
+       different.
+
+BUGS
+Function: SP_error
+RETURN VALUES
+       Returns nothing.
+
+BUGS
+Function: SP_get_memb_info
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly. Or it is not a membership message.
+
+BUGS
+Function: SP_get_vs_set_members
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       BUFFER_TOO_SHORT
+               The allocated array of member names can not hold the number of
+               members in this VS set. No data is parsed. Reallocate a larger
+               array of member names (the required number is available in the
+               corresponding vs_set_info struct) and call this function again.
+
+BUGS
+Function: SP_get_vs_sets_info
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       BUFFER_TOO_SHORT
+               The allocated array of vs_set_info structs can not hold the
+               number of VS sets contained in this membership message. No data
+               is parsed. Reallocate a larger array of vs_set_info structs
+               (the required number is available in the membership_info
+               struct) and call this function again.
+
+BUGS
+Function: SP_join
+RETURN VALUES
+       Returns 0 on success or one of the following errors ( < 0 ):
+
+       ILLEGAL_GROUP
+               The group given to join was illegal for some reason. Usually
+               because it was of length 0 or length > MAX_GROUP_NAME
+
+       ILLEGAL_SESSION
+               The session specified by mbox is illegal. Usually because it is
+               not active.
+
+       CONNECTION_CLOSED
+               During communication errors occured and the join could not be
+               initiated.
+
+BUGS
+Function: SP_leave
+RETURN VALUES
+       Returns 0 on success or one of the following errors ( < 0 ):
+
+       ILLEGAL_GROUP
+               The group given to leave was illegal for some reason. Usually
+               because it was of length 0 or length > MAX_GROUP_NAME
+
+       ILLEGAL_SESSION
+               The session specified by mbox is illegal. Usually because it is
+               not active.
+
+       CONNECTION_CLOSED
+               During communication errors occured and the leave could not be
+               initiated.
+
+BUGS
+Function: SP_multicast
+RETURN VALUES
+       Returns the number of bytes sent on success or one of the following
+       errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to multicast on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to send the message errors occured and the
+               send could not be completed.
+
+BUGS
+Function: SP_multigroup_multicast
+RETURN VALUES
+       Returns the number of bytes sent on success or one of the following
+       errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to multicast on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to send the message errors occured and the
+               send could not be completed.
+
+BUGS
+Function: SP_multigroup_scat_multicast
+RETURN VALUES
+       Returns the number of bytes sent on success or one of the following
+       errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to multicast on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to send the message errors occured and the
+               send could not be completed.
+
+BUGS
+Function: SP_poll
+RETURN VALUES
+       Returns 0 if nothing is available or the number of bytes available, or
+       one of the following errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The session specified by mbox is illegal. Usually because it is
+               not active.
+
+BUGS
+Function: SP_receive
+RETURN VALUES
+       Returns the size of the message received on success or one of the
+       following errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to receive on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to receive the message communication
+               errors occured and the receive could not be completed.
+
+       GROUPS_TOO_SHORT
+               If the groups array is too short to hold the entire list of
+               groups this message was sent to then this error is returned and
+               the num_groups field will be set to the negative of the number
+               of groups needed.
+
+       BUFFER_TOO_SHORT
+               If the message body buffer mess is too short to hold the
+               message being received then this error is returned and the
+               endian_mismatch field is set to the negative value of the
+               required buffer length.
+
+BUGS
+Function: SP_scat_get_memb_info
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly. Or it is not a membership message.
+
+BUGS
+Function: SP_scat_get_vs_set_members
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       BUFFER_TOO_SHORT
+               The allocated array of member names can not hold the number of
+               members in this VS set. No data is parsed. Reallocate a larger
+               array of member names (the required number is available in the
+               corresponding vs_set_info struct) and call this function again.
+
+BUGS
+Function: SP_scat_get_vs_sets_info
+RETURN VALUES
+       Returns a postivive value on success or one of the following errors ( <
+       0 ):
+
+       BUFFER_TOO_SHORT
+               The allocated array of vs_set_info structs can not hold the
+               number of VS sets contained in this membership message. No data
+               is parsed. Reallocate a larger array of vs_set_info structs
+               (the required number is available in the membership_info
+               struct) and call this function again.
+
+BUGS
+Function: SP_scat_multicast
+RETURN VALUES
+       Returns the number of bytes sent on success or one of the following
+       errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to multicast on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to send the message errors occured and the
+               send could not be completed.
+
+BUGS
+Function: SP_scat_receive
+RETURN VALUES
+       Returns the size of the message received on success or one of the
+       following errors ( < 0 ):
+
+       ILLEGAL_SESSION
+               The mbox given to receive on was illegal.
+
+       ILLEGAL_MESSAGE
+               The message had an illegal structure, like a scatter not filled
+               out correctly.
+
+       CONNECTION_CLOSED
+               During communication to receive the message communication
+               errors occured and the receive could not be completed.
+
+       GROUPS_TOO_SHORT
+               If the groups array is too short to hold the entire list of
+               groups this message was sent to then this error is returned and
+               the num_groups field will be set to the negative of the number
+               of groups needed.
+
+       BUFFER_TOO_SHORT
+               If the message body buffer mess is too short to hold the
+               message being received then this error is returned and the
+               endian_mismatch field is set to the negative value of the
+               required buffer length.
+
+BUGS

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+group=$1
+shift
+
+(
+echo j $group
+for w in $@ xxxxquit ; do
+ echo "s $group"
+ echo "$w\r\n"
+done
+echo l $group
+echo q
+) | spuser > /dev/null
