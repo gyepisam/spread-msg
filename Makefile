@@ -1,12 +1,24 @@
 .PHONY: clean all
 
-all : test_recv_msg
+all : spread_msg.a spread_msg.so test_recv_msg
+
+libs = utils.o spread_msg.o print_msg.o spread_error.o 
 
 LDFLAGS += -lspread -ldl
-CFLAGS += -Wall -g3
+CFLAGS += -Wall
+SHLDFLAGS=-shared
+RANLIB=ranlib
 
-test_recv_msg : utils.o spread_msg.o print_msg.o spread_error.o test_recv_msg.o 
+spread_msg.a : $(libs)
+		$(AR) -rv $@ $^
+		$(RANLIB) $@
+
+test_recv_msg :  CFLAGS += -g3
+test_recv_msg : test_recv_msg.o $(libs)
 	$(CC) -o $@  $(CFLAGS) $^ $(LDFLAGS)
+
+spread_msg.so : $(libs)
+	$(CC) -o $@ $(SHLDFLAGS) $(libs)
 
 # Here, we want to grab all the error codes mentioned in the spread man
 # pages, along with their descriptions, and generate, eventually, 
@@ -33,7 +45,7 @@ generated = $(addprefix spread_error.,c txt xml)
 	gsl -q -script:$(*).gsl $< > $@
 
 clean:
-	$(RM) *~ *.o
+	$(RM) *~ *.o *.a *.so
 
 realclean: clean
 		$(RM) $(generated) 

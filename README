@@ -1,0 +1,62 @@
+Description:
+
+The spread message library is a set of data structures and routines
+to simplify message handling for clients that use the Spread Toolkit <http://www.spread.org> 
+
+The core part of the library is spread_receive(..), which wraps SP_receive(...) and
+parses the raw message into data structures representing the message type, each of which
+has its own set of associated data.
+
+There are data structures for the regular, membership, transition, and self leave messages.
+
+Author:
+
+Gyepi Sam <self-github@gyepi.com>
+
+Usage:
+
+make all will create a test program test_recv_msg and two libraries.
+
+test_recv_msg is hardcoded to connect to the spread daemon on localhost, join 'group0'
+and print out any messages received. 
+use the test programs in the test directory to exercise it.
+
+sender.py sends out messages of varying sizes as fast as possible.
+spmsg sends out messages provided on the command line then sends a 'quit' command
+which causes test_recv_msg to terminate.
+
+To use the library in your program, it's easiest to create a symlink to the directory
+and add the proper incantations to your Makefile.
+
+Main files:
+
+    Library:
+
+        spread_msg.h
+        spread_msg.c  
+
+    Utilities:
+
+        print_msg.c
+        spread_error.h
+        utils.c
+        utils.h
+
+Test programs:
+    test/sender.py
+    test/spmsg
+    test_recv_msg.c
+
+Code generation tools:
+
+    extract_spread_error
+    spread_error.gsl
+    spread_error.pl
+
+Generated files: 
+    spread_error.c 
+    spread_error.txt
+    spread_error.xml
+
+Code generations depends on
+    gsl https://github.com/imatix/gsl
