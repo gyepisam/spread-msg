@@ -58,5 +58,5 @@ Generated files:
     spread_error.txt
     spread_error.xml
 
-Code generations depends on
+Code generation depends on
     gsl https://github.com/imatix/gsl
